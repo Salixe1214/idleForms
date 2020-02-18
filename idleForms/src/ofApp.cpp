@@ -2,17 +2,18 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
-
+    test.setup();
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
-
+    
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-
+    ofBackgroundGradient(ofColor((ofGetElapsedTimeMillis()/100)%256, 100, 200), ofColor(100, (ofGetElapsedTimeMillis()/100)%256, 200));
+    test.drawIndustry(10, 10);
 }
 
 //--------------------------------------------------------------
@@ -37,7 +38,7 @@ void ofApp::mouseDragged(int x, int y, int button){
 
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button){
-
+    test.buy();
 }
 
 //--------------------------------------------------------------
