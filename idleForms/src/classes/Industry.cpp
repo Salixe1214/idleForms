@@ -17,34 +17,47 @@ Industry::~Industry()
     
 }
 
-void Industry::setup(int p_increment, int p_size, float p_price, int p_value, string p_fontName)
+void Industry::setup(unsigned int p_id, unsigned int p_size)
 {
-    size = p_size;
-    _price = p_price;
-    price = ceil(_price);
-    value = p_value;
-    increment = p_increment;
+    m_id = p_id;
+    m_size = p_size;
     
-    font.load(p_fontName, size/3);
+    m_position.x = m_size/2;
+    m_position.y = (m_id * m_size) + (m_size/2);
+    
+    _price = 15 * exp(m_id);
+    m_price = ceil(_price);
+    
+    m_quantity = 1;
+    m_value = m_quantity * (m_id + 1);
+    
+    font.load("AquaKana.ttc", 32);
 }
 
-void Industry::drawIndustry(int p_positionX, int p_positionY)
+void Industry::drawIndustry() const
 {
-    positionX = p_positionX;
-    positionY = p_positionY;
     ofNoFill();
-    ofSetCircleResolution(3);
-    ofDrawCircle(positionX + (size/2), positionY + (size/2), size/2);
-    font.drawString(std::to_string(price), p_positionX + size + 30, p_positionY + ((2*size)/3));
-    font.drawString(std::to_string(value), 0, ofGetHeight());
+    ofSetColor(ofColor::black);
+    ofSetCircleResolution(m_id + 1);
+    ofDrawCircle(m_position, m_size/2);
+    
+    font.drawString(std::to_string(m_price), m_position.x + m_size, m_position.y);
+    
 }
 
 void Industry::buy()
 {
-    if(ofGetMouseX() >= positionX && ofGetMouseX() <= positionX + size && ofGetMouseY() >= positionY && ofGetMouseY() <= positionY + size){
-        _price = _price * exp(0.1);
-        price = ceil(_price);
-        value += increment;
+    if(ofGetMouseX() >= m_position.x - (m_size/2) &&
+       ofGetMouseX() <= m_position.x + (m_size/2) &&
+       ofGetMouseY() >= m_position.y - (m_size/2) &&
+       ofGetMouseY() <= m_position.y + (m_size/2)){
+        
+        _price = 15 * exp(m_id) * exp(m_quantity * 0.02);
+        m_price = ceil(_price);
+        
+        m_quantity++;
+        
+        m_value = m_quantity * (m_id + 1);
     }
 }
 
